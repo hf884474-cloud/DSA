@@ -1,0 +1,93 @@
+import java.util.Scanner;
+
+// The Stack Class: Encapsulates data and logic
+class MyStack {
+    private int[] stackArray;
+    private int top;
+    private int maxSize;
+
+    // CREATE: Constructor to initialize the stack
+    public MyStack(int size) {
+        this.maxSize = size;
+        this.stackArray = new int[maxSize];
+        this.top = -1; // -1 indicates the stack is empty
+    }
+
+    // PUSH: Add an element to the top
+    public void push(int value) {
+        if (top == maxSize - 1) {
+            System.out.println("Error: Stack Overflow! Cannot add " + value);
+        } else {
+            stackArray[++top] = value;
+            System.out.println("Successfully pushed " + value);
+        }
+    }
+
+    // POP: Remove the top element
+    public void pop() {
+        if (top == -1) {
+            System.out.println("Error: Stack Underflow! No elements to remove.");
+        } else {
+            int removedElement = stackArray[top--];
+            System.out.println("Popped element: " + removedElement);
+        }
+    }
+
+    // TRAVERSE: Display the stack from top to bottom
+    public void traverse() {
+        if (top == -1) {
+            System.out.println("The stack is currently empty.");
+        } else {
+            System.out.print("Stack (Top to Bottom): ");
+            for (int i = top; i >= 0; i--) {
+                System.out.print(stackArray[i] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+// Main Class: Handles the Menu Interface
+public class StackDemo {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the size of the stack you want to create: ");
+        int size = scanner.nextInt();
+        
+        // Creating the Stack object
+        MyStack stack = new MyStack(size);
+
+        int choice;
+        do {
+            System.out.println("\n--- STACK MENU ---");
+            System.out.println("1. PUSH (Insert)");
+            System.out.println("2. POP (Delete)");
+            System.out.println("3. TRAVERSE (Display)");
+            System.out.println("4. EXIT");
+            System.out.print("Choose an option: ");
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter value to push: ");
+                    int val = scanner.nextInt();
+                    stack.push(val);
+                    break;
+                case 2:
+                    stack.pop();
+                    break;
+                case 3:
+                    stack.traverse();
+                    break;
+                case 4:
+                    System.out.println("Exiting program...");
+                    break;
+                default:
+                    System.out.println("Invalid choice! Please try again.");
+            }
+        } while (choice != 4);
+
+        scanner.close();
+    }
+}
