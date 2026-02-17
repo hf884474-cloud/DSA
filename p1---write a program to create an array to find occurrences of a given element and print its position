@@ -1,0 +1,60 @@
+import java.util.Scanner;
+
+public class ArraySearcher {
+    // Class-level variables (accessible by all methods)
+    static Scanner sc = new Scanner(System.in);
+    static int[] arr;
+    static int target;
+
+    public static void main(String[] args) {
+        readArray();
+        displayArray();
+        findOccurrences();
+    }
+
+    // Method to read array and target element
+    public static void readArray() {
+        System.out.print("Enter the size of the array: ");
+        int size = sc.nextInt();
+        arr = new int[size];
+
+        System.out.println("Enter " + size + " elements:");
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        System.out.print("Enter the element to search for: ");
+        target = sc.nextInt();
+    }
+
+    // Method to print the array using a standard for-loop
+    public static void displayArray() {
+        System.out.print("\nArray Elements: ");
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println(); // New line for formatting
+    }
+
+    // Method to find occurrences and print indices
+    public static void findOccurrences() {
+        int count = 0;
+        boolean found = false;
+
+        System.out.println("Searching for " + target + "...");
+        
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == target) {
+                System.out.println("Target found at Index: " + i);
+                count++;
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("The element " + target + " does not exist in the array.");
+        } else {
+            System.out.println("Total number of occurrences: " + count);
+        }
+    }
+}
