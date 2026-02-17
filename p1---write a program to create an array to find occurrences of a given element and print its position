@@ -1,28 +1,43 @@
 import java.util.Scanner;
 
 public class ArraySearcher {
-    // We keep these static so the methods can modify them easily, 
-    // but the Scanner is now localized.
+    static final int MAX_SIZE = 100; 
+    static final int MIN_SIZE = 1; // Defining the lower bound for underflow check
+    
     static int[] arr;
     static int target;
 
     public static void main(String[] args) {
-        // Initialize the scanner locally in main
         Scanner sc = new Scanner(System.in);
 
-        readArray(sc);     // Pass it in
-        displayArray();    // Doesn't need scanner
-        findOccurrences();
+        readArray(sc);
+        
+        // Only proceed if the array was actually initialized (prevents NullPointerException)
+        if (arr != null && arr.length > 0) {
+            displayArray();
+            findOccurrences();
+        }
 
-        sc.close();        // Clean up resource
+        sc.close();
     }
 
-    // Method now accepts Scanner as a parameter
     public static void readArray(Scanner sc) {
-        System.out.print("Enter the size of the array: ");
-        int size = sc.nextInt();
-        arr = new int[size];
+        int size = 0;
 
+        System.out.print("Enter the size of the array: ");
+        size = sc.nextInt();
+
+        // --- Overflow and Underflow Logic ---
+        if (size > MAX_SIZE) {
+            System.out.println("OVERFLOW ERROR: Size " + size + " exceeds maximum capacity of " + MAX_SIZE + ".");
+            return; // Exit method early
+        } else if (size < MIN_SIZE) {
+            System.out.println("UNDERFLOW ERROR: Size " + size + " is below the minimum required size of " + MIN_SIZE + ".");
+            return; // Exit method early
+        }
+
+        // If checks pass, initialize the array
+        arr = new int[size];
         System.out.println("Enter " + size + " elements:");
         for (int i = 0; i < arr.length; i++) {
             arr[i] = sc.nextInt();
