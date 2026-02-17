@@ -1,0 +1,55 @@
+import java.util.Scanner;
+
+public class StackManager {
+    static Scanner sc = new Scanner(System.in);
+    static final int MAX_SIZE = 100; // Capacity limit
+    static int[] stack = new int[MAX_SIZE];
+    static int top = -1; // -1 means the stack is empty
+
+    public static void main(String[] args) {
+        // Example: Push multiple elements manually or via user input
+        pushMultiple(); 
+        displayStack();
+    }
+
+    // Method to push more than one element based on user input
+    public static void pushMultiple() {
+        System.out.print("How many elements do you want to push? ");
+        int numToPush = sc.nextInt();
+
+        // Check for Overflow: Can the stack hold this many more elements?
+        if (top + numToPush >= MAX_SIZE) {
+            System.out.println("Overflow Error: Not enough space in the stack!");
+            return;
+        }
+
+        if (numToPush <= 0) {
+            System.out.println("No elements to push.");
+            return;
+        }
+
+        System.out.println("Enter " + numToPush + " elements:");
+        for (int i = 0; i < numToPush; i++) {
+            int value = sc.nextInt();
+            // Basic push logic
+            top++; 
+            stack[top] = value;
+        }
+        System.out.println(numToPush + " elements pushed successfully.");
+    }
+
+    // Method to display stack (Traverse)
+    public static void displayStack() {
+        // Check for Underflow: Is there anything to show?
+        if (top == -1) {
+            System.out.println("Underflow: Stack is empty.");
+            return;
+        }
+
+        System.out.print("Stack (Top to Bottom): ");
+        for (int i = top; i >= 0; i--) {
+            System.out.print(stack[i] + " ");
+        }
+        System.out.println();
+    }
+}
