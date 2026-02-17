@@ -1,0 +1,72 @@
+import java.util.Scanner;
+
+public class StackManager {
+    static Scanner sc = new Scanner(System.in);
+    static final int MAX_SIZE = 100;
+    static int[] stack = new int[MAX_SIZE];
+    static int top = -1; // -1 indicates an empty stack
+
+    public static void main(String[] args) {
+        // Pre-filling stack for demonstration
+        pushInitialData();
+        
+        // Operation: Pop multiple elements
+        popMultiple();
+        
+        displayStack();
+    }
+
+    // Method to remove more than one element (LIFO)
+    public static void popMultiple() {
+        // 1. Underflow Check: Is the stack already empty?
+        if (top == -1) {
+            System.out.println("Underflow Error: Stack is already empty.");
+            return;
+        }
+
+        System.out.print("How many elements do you want to pop? ");
+        int numToPop = sc.nextInt();
+
+        // 2. Bound Check: Can we pop that many?
+        if (numToPop <= 0) {
+            System.out.println("Invalid number of elements.");
+            return;
+        }
+
+        // If user wants to pop more than exists, we pop all
+        if (numToPop > (top + 1)) {
+            System.out.println("Note: Only " + (top + 1) + " elements exist. Popping all.");
+            numToPop = top + 1;
+        }
+
+        System.out.print("Popping elements: ");
+        for (int i = 0; i < numToPop; i++) {
+            System.out.print(stack[top] + " ");
+            top--; // The core "pop" logic: move pointer down
+        }
+        System.out.println("\nSuccessfully popped " + numToPop + " elements.");
+    }
+
+    public static void pushInitialData() {
+        System.out.print("Enter number of elements to push initially: ");
+        int n = sc.nextInt();
+        if (n > MAX_SIZE) n = MAX_SIZE;
+        
+        for (int i = 0; i < n; i++) {
+            top++;
+            stack[top] = (i + 1) * 10; // Fill with 10, 20, 30...
+        }
+    }
+
+    public static void displayStack() {
+        if (top == -1) {
+            System.out.println("Stack is empty.");
+            return;
+        }
+        System.out.print("Current Stack (Top to Bottom): ");
+        for (int i = top; i >= 0; i--) {
+            System.out.print(stack[i] + " ");
+        }
+        System.out.println();
+    }
+}
