@@ -1,0 +1,71 @@
+import java.util.Scanner;
+
+public class ArrayDeleter {
+    // Static class-level variables
+    static Scanner sc = new Scanner(System.in);
+    static int[] arr;
+    static final int MAX_SIZE = 100;
+
+    public static void main(String[] args) {
+        inputArray();       // Method to get user data
+        deleteAtEnd();      // Method to handle deletion logic
+        displayArray();     // Method to show final results
+    }
+
+    // Method to read array input
+    public static void inputArray() {
+        System.out.print("Enter array size (1-" + MAX_SIZE + "): ");
+        int n = sc.nextInt();
+
+        // Size check (Overflow/Underflow)
+        if (n <= 0) {
+            System.out.println("Underflow Error: Array must have at least 1 element.");
+            return;
+        } else if (n > MAX_SIZE) {
+            System.out.println("Overflow Error: Size exceeds limit.");
+            return;
+        }
+
+        arr = new int[n];
+        System.out.println("Enter " + n + " elements:");
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+    }
+
+    // Method to delete the last element
+    public static void deleteAtEnd() {
+        // Underflow check: Cannot delete from an empty or null array
+        if (arr == null || arr.length == 0) {
+            System.out.println("Underflow Error: No elements to delete.");
+            return;
+        }
+
+        System.out.println("Deleting last element: " + arr[arr.length - 1]);
+
+        // Logic: Create a new array of size (length - 1)
+        int[] newArr = new int[arr.length - 1];
+
+        // Copy all elements except the last one
+        for (int i = 0; i < newArr.length; i++) {
+            newArr[i] = arr[i];
+        }
+
+        // Update the static reference to the new smaller array
+        arr = newArr;
+    }
+
+    // Method to display array contents
+    public static void displayArray() {
+        if (arr == null || arr.length == 0) {
+            System.out.println("Current Array is empty.");
+            return;
+        }
+
+        System.out.print("Current Array: ");
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+}
