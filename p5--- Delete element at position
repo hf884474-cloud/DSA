@@ -1,0 +1,70 @@
+import java.util.Scanner;
+
+public class DeleteByValue {
+    // Static variables for easy access without parameters
+    static Scanner sc = new Scanner(System.in);
+    static int[] arr = new int[100]; // Fixed capacity
+    static int n; // Actual number of elements in the array
+
+    public static void main(String[] args) {
+        input();
+        deleteByValue();
+        display();
+    }
+
+    public static void input() {
+        System.out.print("Enter number of elements (max 100): ");
+        n = sc.nextInt();
+
+        if (n < 1 || n > 100) {
+            System.out.println("Invalid size.");
+            return;
+        }
+
+        System.out.println("Enter " + n + " elements:");
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+    }
+
+    public static void deleteByValue() {
+        if (n == 0) {
+            System.out.println("Underflow: Array is empty.");
+            return;
+        }
+
+        System.out.print("Enter the value to delete: ");
+        int target = sc.nextInt();
+        int indexFound = -1;
+
+        // 1. Search for the target value
+        for (int i = 0; i < n; i++) {
+            if (arr[i] == target) {
+                indexFound = i;
+                break; // Stop at the first occurrence
+            }
+        }
+
+        // 2. Check if element exists
+        if (indexFound == -1) {
+            System.out.println("Element " + target + " not found.");
+            return;
+        }
+
+        // 3. Shift elements to the left to "delete"
+        for (int i = indexFound; i < n - 1; i++) {
+            arr[i] = arr[i + 1];
+        }
+
+        n--; // Decrease logical size
+        System.out.println("Deleted " + target + " successfully.");
+    }
+
+    public static void display() {
+        System.out.print("Current Array: ");
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+}
