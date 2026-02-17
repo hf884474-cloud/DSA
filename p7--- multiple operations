@@ -1,0 +1,136 @@
+import java.util.Scanner;
+
+public class ArraySystem {
+    // Static class-level variables
+    static Scanner sc = new Scanner(System.in);
+    static int[] arr = new int[100]; // Static capacity
+    static int n = 0; // Current number of elements
+
+    public static void main(String[] args) {
+        int choice;
+        while (true) {
+            System.out.println("\n--- ARRAY OPERATIONS MENU ---");
+            System.out.println("1. Create Array");
+            System.out.println("2. Insert Multiple Elements");
+            System.out.println("3. Delete Multiple Elements");
+            System.out.println("4. Traverse (Display)");
+            System.out.println("5. Search Element");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1: create(); break;
+                case 2: insert(); break;
+                case 3: delete(); break;
+                case 4: traverse(); break;
+                case 5: search(); break;
+                case 6: System.exit(0);
+                default: System.out.println("Invalid choice! Try again.");
+            }
+        }
+    }
+
+    // 1. CREATE: Initialize array with elements
+    public static void create() {
+        System.out.print("Enter number of elements to add: ");
+        int count = sc.nextInt();
+        if (count > 100 || count < 0) {
+            System.out.println("Overflow/Underflow Error: Limit is 0-100.");
+            return;
+        }
+        n = count;
+        System.out.println("Enter " + n + " elements:");
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        System.out.println("Array created successfully.");
+    }
+
+    // 2. INSERT: Add more than one element at a specific position
+    public static void insert() {
+        System.out.print("Enter position to insert at (0 to " + n + "): ");
+        int pos = sc.nextInt();
+        System.out.print("How many elements do you want to insert? ");
+        int num = sc.nextInt();
+
+        if (n + num > 100) {
+            System.out.println("Overflow: Not enough space for " + num + " elements.");
+            return;
+        }
+        if (pos < 0 || pos > n) {
+            System.out.println("Invalid position.");
+            return;
+        }
+
+        // Shift elements to the right to make space
+        for (int i = n - 1; i >= pos; i--) {
+            arr[i + num] = arr[i];
+        }
+
+        // Insert new elements
+        System.out.println("Enter " + num + " elements to insert:");
+        for (int i = 0; i < num; i++) {
+            arr[pos + i] = sc.nextInt();
+        }
+        n += num;
+        System.out.println("Inserted successfully.");
+    }
+
+    // 3. DELETE: Remove more than one element from a specific position
+    public static void delete() {
+        if (n == 0) {
+            System.out.println("Underflow: Array is empty.");
+            return;
+        }
+        System.out.print("Enter starting index to delete from: ");
+        int pos = sc.nextInt();
+        System.out.print("How many elements to delete? ");
+        int num = sc.nextInt();
+
+        if (pos < 0 || pos >= n) {
+            System.out.println("Invalid position.");
+            return;
+        }
+
+        // If user wants to delete more than available, cap it to the end
+        if (pos + num > n) {
+            num = n - pos;
+        }
+
+        // Shift elements to the left to close the gap
+        for (int i = pos; i < n - num; i++) {
+            arr[i] = arr[i + num];
+        }
+        n -= num;
+        System.out.println("Deleted " + num + " elements successfully.");
+    }
+
+    // 4. TRAVERSE: Display array elements
+    public static void traverse() {
+        if (n == 0) {
+            System.out.println("Array is empty.");
+            return;
+        }
+        System.out.print("Array Elements: ");
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+
+    // 5. SEARCH: Find an element and its position
+    public static void search() {
+        System.out.print("Enter element to search for: ");
+        int target = sc.nextInt();
+        boolean found = false;
+
+        for (int i = 0; i < n; i++) {
+            if (arr[i] == target) {
+                System.out.println("Element found at Index: " + i);
+                found = true;
+            }
+        }
+        if (!found) System.out.println("Element not found.");
+    }
+}
