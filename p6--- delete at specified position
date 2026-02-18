@@ -3,34 +3,56 @@
 import java.util.Scanner;
 
 public class MultiDelete {
-    static Scanner sc = new Scanner(System.in);
-    static int[] arr = new int[100]; // Static array with max capacity
-    static int n; // Logical size
+    private Scanner sc = new Scanner(System.in);
+    private int[] arr = new int[100]; // Max capacity is 100
+    private int n = 0; // Current number of elements
 
     public static void main(String[] args) {
-        input();
-        deleteMultiple();
-        display();
+        MultiDelete obj = new MultiDelete();
+        obj.input();
+        
+        // Example of adding one more element to test overflow
+        obj.insertElement(999); 
+        
+        obj.deleteMultiple();
+        obj.display();
     }
 
-    public static void input() {
-        System.out.print("Enter number of elements: ");
-        n = sc.nextInt();
+    public void input() {
+        System.out.print("Enter number of elements to insert: ");
+        int num = sc.nextInt();
 
-        if (n < 1 || n > 100) {
-            System.out.println("Invalid size (1-100).");
+        // --- OVERFLOW CONDITION ---
+        if (num > 100) {
+            System.out.println("Overflow: Cannot insert " + num + " elements. Max capacity is 100.");
+            n = 0; // Reset or handle as needed
             return;
         }
 
+        n = num;
         System.out.println("Enter " + n + " elements:");
         for (int i = 0; i < n; i++) {
             arr[i] = sc.nextInt();
         }
     }
 
-    public static void deleteMultiple() {
+    // Method to demonstrate overflow during a single insertion
+    public void insertElement(int val) {
+        // --- OVERFLOW CONDITION ---
+        if (n >= 100) {
+            System.out.println("Overflow: Array is full. Cannot add " + val);
+            return;
+        }
+        
+        arr[n] = val;
+        n++;
+        System.out.println("Inserted " + val + " successfully.");
+    }
+
+    public void deleteMultiple() {
+        // --- UNDERFLOW CONDITION ---
         if (n == 0) {
-            System.out.println("Underflow: Array is empty.");
+            System.out.println("Underflow: Array is empty. Nothing to delete.");
             return;
         }
 
@@ -39,30 +61,29 @@ public class MultiDelete {
         System.out.print("Enter how many elements to delete: ");
         int numToDelete = sc.nextInt();
 
-        // 1. Validation (Overflow/Underflow Check)
         if (startIndex < 0 || startIndex >= n || numToDelete < 0) {
             System.out.println("Invalid input range.");
             return;
         }
 
-        // Adjust numToDelete if it exceeds the remaining elements
         if (startIndex + numToDelete > n) {
             numToDelete = n - startIndex; 
             System.out.println("Limit exceeded. Deleting remaining elements only.");
         }
 
-        // 2. Shift elements to the left
-        // We move elements from (startIndex + numToDelete) back to startIndex
         for (int i = startIndex; i < n - numToDelete; i++) {
             arr[i] = arr[i + numToDelete];
         }
 
-        // 3. Update logical size
         n = n - numToDelete;
         System.out.println("Deleted " + numToDelete + " element(s) successfully.");
     }
 
-    public static void display() {
+    public void display() {
+        if (n == 0) {
+            System.out.println("Array is empty.");
+            return;
+        }
         System.out.print("Current Array: ");
         for (int i = 0; i < n; i++) {
             System.out.print(arr[i] + " ");
