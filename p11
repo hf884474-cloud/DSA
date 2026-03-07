@@ -1,0 +1,74 @@
+import java.util.Scanner;
+
+class LinearQueueDeletion {
+
+    int[] queue;
+    int front, rear, capacity;
+
+    LinearQueueDeletion(int size) {
+        capacity = size;
+        queue = new int[capacity];
+        front = -1;
+        rear = -1;
+    }
+
+    void enqueue(int value) {
+        if (rear == capacity - 1) {
+            System.out.println("Overflow for value: " + value);
+            return;
+        }
+        if (front == -1) front = 0;
+        queue[++rear] = value;
+    }
+
+    void dequeue() {
+        if (front == -1 || front > rear) {
+            System.out.println("Queue is empty (Underflow)");
+            return;
+        }
+        System.out.println(queue[front] + " removed");
+        front++;
+    }
+
+    void display() {
+        if (front == -1 || front > rear) {
+            System.out.println("Queue is empty");
+            return;
+        }
+        for (int i = front; i <= rear; i++)
+            System.out.print(queue[i] + " ");
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter total queue capacity: ");
+        int size = sc.nextInt();
+        LinearQueueDeletion q = new LinearQueueDeletion(size);
+
+        System.out.print("How many elements do you want to add right now? ");
+        int count = sc.nextInt();
+
+        // Adding multiple elements based on user input
+        for (int i = 1; i <= count; i++) {
+            System.out.print("Enter element " + i + ": ");
+            int val = sc.nextInt();
+            q.enqueue(val);
+        }
+
+        System.out.print("\nFinal Queue: ");
+        q.display();
+
+        System.out.print("\nHow many elements do you want to remove? ");
+        int removeCount = sc.nextInt();
+        for (int i = 0; i < removeCount; i++) {
+            q.dequeue();
+        }
+
+        System.out.print("\nQueue after deletions: ");
+        q.display();
+
+        sc.close();
+    }
+}
