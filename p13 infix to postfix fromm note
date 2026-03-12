@@ -1,0 +1,115 @@
+import java.util.Scanner;
+
+// --- CLASS 1: THE STACK TOOL ---
+class MyStack {
+    int top = -1;
+    char[] items;
+
+    MyStack(int size) {
+        // We add +2 space for the added '(' and safety
+        items = new char[size + 2]; 
+    }
+
+    void push(char c) {
+        if (top == items.length - 1) {
+            System.out.println("Stack Overflow!");
+        } else {
+            top++;
+            items[top] = c;
+        }
+    }
+
+    char pop() {
+        if (top == -1) {
+            return '\0'; 
+        }
+        char temp = items[top];
+        top--;
+        return temp;
+    }
+
+    char peek() {
+        if (top == -1) {
+            return '\0';
+        }
+        return items[top];
+    }
+
+    boolean isEmpty() {
+        if (top == -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+// --- CLASS 2: THE MAIN CLASS ---
+public class Main {
+
+    static int getPriority(char op) {
+        if (op == '+' || op == '-') return 1;
+        if (op == '*' || op == '/') return 2;
+        if (op == '^') return 3;
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter Infix Expression (Q): ");
+        String Q = sc.next();
+
+        // Step 1: Push "(" onto STACK and add ")" to the end of Q
+        MyStack stack = new MyStack(Q.length());
+        stack.push('(');
+        Q = Q + ")";
+
+        String P = ""; // Equivalent postfix expression
+
+        // Step 2: Scan Q from left to right
+        for (int i = 0; i < Q.length(); i++) {
+            char element = Q.charAt(i);
+
+            // Step 3: if an operand is encountered (Manual Check)
+            if ((element >= 'a' && element <= 'z') || 
+                (element >= 'A' && element <= 'Z') || 
+                (element >= '0' && element <= '9')) {
+                P = P + element;
+            }
+            
+            // Step 4: if left parenthesis is encountered
+            else if (element == '(') {
+                stack.push(element);
+            }
+            
+            // Step 5: if an operator is encountered
+            else if (element == '+' || element == '-' || element == '*' || element == '/' || element == '^') {
+                // Step 5a: Pop same or higher precedence
+                while (!stack.isEmpty() && getPriority(stack.peek()) >= getPriority(element)) {
+                    P = P + stack.pop();
+                }
+                // Step 5b: Add operator to STACK
+                stack.push(element);
+            }
+            
+            // Step 6: if a right parenthesis is encountered
+            else if (element == ')') {
+                // Step i: Pop until left parenthesis is encountered
+                while (!stack.isEmpty() && stack.peek() != '(') {
+                    P = P + stack.pop();
+                }
+                // Step ii: Remove the left parenthesis
+                stack.pop(); 
+            }
+
+            // Loop continues until STACK is empty (Step 2 condition)
+            if (stack.isEmpty()) {
+                break;
+            }
+        }
+
+        // Step 7: Final Result
+        System.out.println("Postfix Expression (P): " + P);
+        sc.close();
+    }
+}
