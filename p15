@@ -1,0 +1,65 @@
+import java.util.Scanner;
+
+// --- CLASS 1: INTEGER STACK FOR CALCULATIONS ---
+class IntStack {
+    int top = -1;
+    int[] items;
+
+    IntStack(int size) {
+        items = new int[size];
+    }
+
+    void push(int val) {
+        if (top == items.length - 1) {
+            System.out.println("Stack Overflow!");
+        } else {
+            items[++top] = val;
+        }
+    }
+
+    int pop() {
+        if (top == -1) {
+            System.out.println("Stack Underflow!");
+            return 0;
+        }
+        return items[top--];
+    }
+}
+
+// --- CLASS 2: THE MAIN EVALUATOR ---
+public class PostfixEvaluator {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter Postfix Expression (e.g., 231*+9-): ");
+        String P = sc.next();
+
+        IntStack stack = new IntStack(P.length());
+
+        for (int i = 0; i < P.length(); i++) {
+            char c = P.charAt(i);
+
+            // 1. If it's a number (0-9)
+            if (c >= '0' && c <= '9') {
+                // Convert char '5' to int 5 by subtracting '0'
+                stack.push(c - '0');
+            } 
+            // 2. If it's an operator
+            else {
+                int val2 = stack.pop(); // Top element
+                int val1 = stack.pop(); // Next element
+
+                switch (c) {
+                    case '+': stack.push(val1 + val2); break;
+                    case '-': stack.push(val1 - val2); break;
+                    case '*': stack.push(val1 * val2); break;
+                    case '/': stack.push(val1 / val2); break;
+                    case '^': stack.push((int) Math.pow(val1, val2)); break;
+                }
+            }
+        }
+
+        System.out.println("Final Evaluation Result: " + stack.pop());
+        sc.close();
+    }
+}
