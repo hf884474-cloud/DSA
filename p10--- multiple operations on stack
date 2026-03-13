@@ -1,86 +1,81 @@
 import java.util.Scanner;
-
-// 1. DATA CLASS: Static storage
 class StackData {
-    static final int MAXSIZE = 25; // Constant max size
-    static int[] arr = new int[MAXSIZE];
-    static int top = -1;
+static final int MAXSIZE = 25;
+static int[] arr = new int[MAXSIZE];
+static int top = -1;
 }
-
-// 2. OPERATIONS CLASS: Static methods for logic
 class StackOperations {
-
-    // CREATE: Resetting the stack (re-initializing)
-    public static void create() {
-        StackData.top = -1;
-        System.out.println("New stack created with MAXSIZE 25.");
-    }
-
-    // PUSH: Add element
-    public static void push(Scanner sc) {
-        if (StackData.top == StackData.MAXSIZE - 1) {
-            System.out.println("Error: Stack Overflow! Cannot exceed 25 elements.");
-        } else {
-            System.out.print("Enter value to push: ");
-            int value = sc.nextInt();
-            StackData.top++;
-            StackData.arr[StackData.top] = value;
-            System.out.println("Value " + value + " pushed successfully.");
-        }
-    }
-
-    // POP: Remove element
-    public static void pop() {
-        if (StackData.top == -1) {
-            System.out.println("Error: Stack Underflow! Stack is empty.");
-        } else {
-            System.out.println("Popped: " + StackData.arr[StackData.top]);
-            StackData.top--;
-        }
-    }
-
-    // TRAVERSE: Display stack
-    public static void traverse() {
-        if (StackData.top == -1) {
-            System.out.println("The stack is currently empty.");
-        } else {
-            System.out.println("\n--- Current Stack Content ---");
-            for (int i = StackData.top; i >= 0; i--) {
-                System.out.println("| " + StackData.arr[i] + " |");
-            }
-            System.out.println("-------");
-        }
-    }
+public static void create() {
+StackData.top = -1;
+System.out.println("New stack created.");
 }
-
-// 3. MAIN CLASS: Menu logic
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int choice = 0;
-
-        System.out.println("Welcome to the Static Stack Program (Max Size: 25)");
-
-        while (choice != 5) {
-            System.out.println("\nMENU:");
-            System.out.println("1. Create/Reset Stack");
-            System.out.println("2. Push");
-            System.out.println("3. Pop");
-            System.out.println("4. Traverse");
-            System.out.println("5. Exit");
-            System.out.print("Select choice: ");
-            
-            choice = sc.nextInt();
-
-            switch (choice) {
-                case 1: StackOperations.create(); break;
-                case 2: StackOperations.push(sc); break;
-                case 3: StackOperations.pop(); break;
-                case 4: StackOperations.traverse(); break;
-                case 5: System.out.println("Exiting..."); break;
-                default: System.out.println("Invalid input!");
-            }
-        }
-        sc.close();
-    }
+public static void push(Scanner sc){
+System.out.print("How many elements to push? ");
+int n = sc.nextInt();
+for(int i=0; i<n; i++) {
+if (StackData.top == StackData.MAXSIZE - 1) {
+System.out.println("Overflow! Stack is full.");
+break;
+}
+System.out.print("Enter value " + (i+1) + ": ");
+StackData.top++;
+StackData.arr[StackData.top] = sc.nextInt();
+}
+}
+public static void pop(Scanner sc) {
+if (StackData.top == -1) {
+System.out.println("Underflow! Stack is empty.");
+return;
+}
+System.out.print("How many elements to pop? ");
+int n = sc.nextInt();
+for(int i=0; i<n; i++) {
+if (StackData.top == -1) {
+System.out.println("Stack became empty.");
+break;
+}
+System.out.println("Popped: " + StackData.arr[StackData.top]);
+StackData.top--;
+}
+}
+public static void traverse() {
+if (StackData.top == -1) {
+System.out.println("Stack is empty.");
+} else {
+System.out.println("---Stack is---");
+for (int i = StackData.top; i >= 0; i--) {
+System.out.println(StackData.arr[i]);
+}
+}
+}
+}
+public class p10{
+public static void main(String[] args) {
+Scanner sc = new Scanner(System.in);
+int choice = 0;
+while (choice != 5){
+System.out.println("1.Create 2.Push 3.Pop 4.Traverse 5.Exit");
+System.out.print("Choice: ");
+choice = sc.nextInt();
+switch (choice) {
+case 1:
+StackOperations.create(); 
+break;
+case 2:
+StackOperations.push(sc); 
+break;
+case 3:
+StackOperations.pop(sc); 
+break;
+case 4:
+StackOperations.traverse(); 
+break;
+case 5: 
+System.out.println("Exiting..."); 
+break;
+default:
+System.out.println("Invalid!");
+}
+}
+}
 }
