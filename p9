@@ -1,0 +1,53 @@
+import java.util.Scanner;
+public class p9{
+static Scanner sc=new Scanner(System.in);
+static final int Max=100;
+static int[] stack=new int[Max];
+static int top=-1;
+public static void main(String args[]){
+push();
+pop();
+display();
+}
+public static void push(){
+System.out.print("Enter number of elements to push");
+int n=sc.nextInt();
+if(n>Max){
+n=Max;
+}
+System.out.println("Enter elements: ");
+for(int i=0;i<n;i++){
+top++;
+stack[top]=sc.nextInt();
+}
+}
+public static void pop(){
+if(top==-1){
+System.out.println("Underflow Error");
+}else{
+System.out.println("Enter number of elements to pop");
+int numpop=sc.nextInt();
+if(numpop<=0){
+System.out.println("Invalid number of elements");
+return;
+}
+if(numpop>(top+1)){
+System.out.println("Only "+ (top+1)+" elements exist.popping all");
+numpop=top+1;
+}
+System.out.print("popping elements: ");
+for(int i=0;i<numpop;i++){
+System.out.print(stack[top]+" ");
+top--;
+}
+System.out.println("popped elements");
+}}
+public static void display(){
+if(top==-1){
+System.out.println("Stack is empty");
+return;
+}
+System.out.println("Stack top to bottom");
+for(int i=top;i>=0;i--){
+System.out.print(stack[i]+" ");
+}}}
