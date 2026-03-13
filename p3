@@ -1,81 +1,78 @@
-public class MergeSortLogic {
+import java.util.Scanner;
 
-    // Main function that sorts the array
-    public static void sort(int[] arr, int left, int right) {
-        if (left < right) {
-            // Find the middle point
-            int mid = left + (right - left) / 2;
-
-            // Sort first and second halves
-            sort(arr, left, mid);
-            sort(arr, mid + 1, right);
-
-            // Merge the sorted halves
-            merge(arr, left, mid, right);
-        }
-    }
-
-    // Helper function to merge two sub-arrays
-    static void merge(int[] arr, int left, int mid, int right) {
-        // Calculate sizes of two sub-arrays to be merged
-        int n1 = mid - left + 1;
-        int n2 = right - mid;
-
-        // Create temporary arrays
-        int[] L = new int[n1];
-        int[] R = new int[n2];
-
-        // Copy data to temp arrays
-        for (int i = 0; i < n1; ++i) L[i] = arr[left + i];
-        for (int j = 0; j < n2; ++j) R[j] = arr[mid + 1 + j];
-
-        // Merge the temp arrays
-        int i = 0, j = 0;
-        int k = left; // Initial index of merged sub-array
-
-        while (i < n1 && j < n2) {
-            if (L[i] <= R[j]) {
-                arr[k] = L[i];
-                i++;
-            } else {
-                arr[k] = R[j];
-                j++;
-            }
-            k++;
-        }
-
-        // Copy remaining elements of L[] if any
-        while (i < n1) {
-            arr[k] = L[i];
-            i++;
-            k++;
-        }
-
-        // Copy remaining elements of R[] if any
-        while (j < n2) {
-            arr[k] = R[j];
-            j++;
-            k++;
-        }
-    }
+class MergeSortLogic {
+public static void printArray(int[] arr) {
+if (arr == null || arr.length == 0) {
+System.out.println("Array is empty.");
+return;
+}
+for (int i = 0; i < arr.length; i++) {
+if (i > 0) System.out.print(" ");
+System.out.print(arr[i]);
+}
 }
 
-// --- SEPARATE CLASS FOR MAIN ---
-class Main {
-    public static void main(String[] args) {
-        int[] numbers = {38, 27, 43, 3, 9, 82, 10};
+public static void sort(int[] arr, int left, int right) {
+if (arr == null || arr.length <= 1) return;
+if (left < right) {
+int mid = left + (right - left) / 2;
+sort(arr, left, mid);
+sort(arr, mid + 1, right);
+merge(arr, left, mid, right);
+}
+}
 
-        System.out.println("Original Array:");
-        printArray(numbers);
+static void merge(int[] arr, int left, int mid, int right) {
+int n1 = mid - left + 1;
+int n2 = right - mid;
+int[] L = new int[n1], R = new int[n2];
+for (int i = 0; i < n1; ++i) L[i] = arr[left + i];
+for (int j = 0; j < n2; ++j) R[j] = arr[mid + 1 + j];
+int i = 0, j = 0, k = left;
+while (i < n1 && j < n2) {
+if (L[i] <= R[j]) arr[k] = L[i++];
+else arr[k] = R[j++];
+k++;
+}
+while (i < n1) arr[k++] = L[i++];
+while (j < n2) arr[k++] = R[j++];
+}
 
-        MergeSortLogic.sort(numbers, 0, numbers.length - 1);
+public static int[] mergeTwoArrays(int[] arr1, int[] arr2) {
+int[] result = new int[arr1.length + arr2.length];
+int i = 0, j = 0, k = 0;
+while (i < arr1.length && j < arr2.length) {
+if (arr1[i] <= arr2[j]) result[k++] = arr1[i++];
+else result[k++] = arr2[j++];
+}
+while (i < arr1.length) result[k++] = arr1[i++];
+while (j < arr2.length) result[k++] = arr2[j++];
+return result;
+}
+}
 
-        System.out.println("\nSorted Array:");
-        printArray(numbers);
-    }
+public class p3 {
+public static void main(String[] args) {
+Scanner sc = new Scanner(System.in);
 
-    static void printArray(int[] arr) {
-        for (int i : arr) System.out.print(i + " ");
-        System.out.println();
-    }
+int[][] arrays = new int[2][];
+
+for (int a = 0; a < 2; a++) {
+System.out.print("\nEnter size for Array " + (a + 1) + ": ");
+int n = sc.nextInt();
+if (n <= 0) {
+arrays[a] = new int[0];
+continue;
+}
+arrays[a] = new int[n];
+System.out.println("Enter " + n + " integers:");
+for (int i = 0; i < n; i++) arrays[a][i] = sc.nextInt();
+MergeSortLogic.sort(arrays[a], 0, arrays[a].length - 1);
+System.out.print("Sorted Array " + (a + 1) + ": ");
+MergeSortLogic.printArray(arrays[a]);
+}
+System.out.println("Final Merged and Sorted Array:");
+int[] finalArray = MergeSortLogic.mergeTwoArrays(arrays[0], arrays[1]);
+MergeSortLogic.printArray(finalArray);
+}
 }
