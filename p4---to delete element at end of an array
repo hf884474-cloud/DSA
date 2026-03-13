@@ -14,7 +14,7 @@ displayArray();
 }
 
 public static void inputArray(Scanner sc) {
-System.out.print("Enter array size (1-" + MAXSIZE + "): ");
+System.out.print("Enter array size: ");
 n = sc.nextInt();
 if (n <= 0) {
 System.out.println("Underflow Error");
