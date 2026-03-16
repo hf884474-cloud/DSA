@@ -1,1 +1,84 @@
-
+import java.util.Scanner;
+class QueueLogic {
+static int[] queue = new int[25];
+static int front = -1, rear = -1;
+static int capacity = 25;
+static void enqueue(int value) {
+if (rear == capacity - 1) {
+System.out.println("Overflow: Queue is full");
+return;
+}
+if (front == -1) front = 0;
+queue[++rear] = value;
+System.out.println("Added: " + value);
+}
+static void dequeue() {
+if (front == -1 || front > rear) {
+System.out.println("Underflow: Queue is empty");
+return;
+}
+System.out.println("Removed: " + queue[front]);
+front++;
+if (front > rear) {
+front = rear = -1;
+}
+}
+static void display() {
+if (front == -1 || front > rear) {
+System.out.println("Queue is empty");
+return;
+}
+System.out.print("Queue Content: ");
+for (int i = front; i <= rear; i++) {
+System.out.print(queue[i] + " ");
+}
+System.out.println();
+}
+}
+public class p13{
+public static void main(String[] args) {
+Scanner sc = new Scanner(System.in);
+int choice;
+do {
+System.out.println("1. Insert Multiple");
+System.out.println("2. Delete Multiple");
+System.out.println("3. Display");
+System.out.println("4. Exit");
+System.out.print("Select an option: ");
+choice = sc.nextInt();
+switch (choice) {
+case 1:
+System.out.print("How many elements to insert? ");
+int toAdd = sc.nextInt();
+if(toAdd>=25){
+System.out.println("Overflow Error");
+}
+else if(toAdd<=0){
+System.out.println("Underflow Error");
+}else{
+for (int i = 0; i < toAdd; i++) {
+System.out.print("Enter value " + (i + 1) + ": ");
+QueueLogic.enqueue(sc.nextInt());
+}
+}
+break;
+case 2:
+System.out.print("How many elements to delete? ");
+int toRemove = sc.nextInt();
+for (int i = 0; i < toRemove; i++) {
+QueueLogic.dequeue();
+}
+break;
+case 3:
+QueueLogic.display();
+break;
+case 4:
+System.out.println("Exiting...");
+break;
+default:
+System.out.println("Invalid choice");
+}
+}
+while (choice != 4);
+}
+}
