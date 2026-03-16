@@ -1,1 +1,52 @@
-
+import java.util.Scanner;
+class Queue {
+int[] queue;
+int front, rear, capacity;
+Queue() {
+capacity = 25;
+queue = new int[capacity];
+front = -1;
+rear = -1;
+}
+void enqueue(int value) {
+if (rear == capacity - 1) {
+System.out.println("Overflow error");
+return;
+}
+if (front == -1) front = 0;
+queue[++rear] = value;
+}
+void display() {
+if (front == -1 || front > rear) {
+System.out.println("Queue is empty");
+return;
+}
+for (int i = front; i <= rear; i++) {
+System.out.print(queue[i] + " ");
+}
+System.out.println();
+}
+}
+public class p12 {
+public static void main(String[] args) {
+Scanner sc = new Scanner(System.in);
+Queue q = new Queue();
+System.out.print("How many elements to add? ");
+int n = sc.nextInt();
+if (n > q.capacity) {
+System.out.println("Overflow Error");
+n = q.capacity;
+}
+else if(n<=0){
+System.out.println("Underflow Error");
+}else{
+for (int i = 1; i <= n; i++) {
+System.out.print("element " + i + ": ");
+int element = sc.nextInt();
+q.enqueue(element);
+}
+}
+System.out.println("\nFinal Queue contents:");
+q.display();
+}
+}
